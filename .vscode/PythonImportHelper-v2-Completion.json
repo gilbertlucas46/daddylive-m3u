@@ -1,0 +1,110 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "gzip",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "gzip",
+        "description": "gzip",
+        "detail": "gzip",
+        "documentation": {}
+    },
+    {
+        "label": "xml.etree.ElementTree",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "xml.etree.ElementTree",
+        "description": "xml.etree.ElementTree",
+        "detail": "xml.etree.ElementTree",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_and_extract_xml",
+        "kind": 2,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "def fetch_and_extract_xml(url):\n    response = requests.get(url)\n    if response.status_code != 200:\n        print(f\"Failed to fetch {url}\")\n        return None\n    if url.endswith('.gz'):\n        try:\n            decompressed_data = gzip.decompress(response.content)\n            return ET.fromstring(decompressed_data)\n        except Exception as e:",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "filter_and_build_epg",
+        "kind": 2,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "def filter_and_build_epg(urls):\n    with open(tvg_ids_file, 'r') as file:\n        valid_tvg_ids = set(line.strip() for line in file)\n    root = ET.Element('tv')\n    for url in urls:\n        epg_data = fetch_and_extract_xml(url)\n        if epg_data is None:\n            continue\n        for channel in epg_data.findall('channel'):\n            tvg_id = channel.get('id')",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "save_as_gz",
+        "kind": 5,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "save_as_gz = True  # Set to True to save an additional .gz version\ntvg_ids_file = os.path.join(os.path.dirname(__file__), 'tvg-ids.txt')\noutput_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'epg.xml')\noutput_file_gz = output_file + '.gz'\ndef fetch_and_extract_xml(url):\n    response = requests.get(url)\n    if response.status_code != 200:\n        print(f\"Failed to fetch {url}\")\n        return None\n    if url.endswith('.gz'):",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "tvg_ids_file",
+        "kind": 5,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "tvg_ids_file = os.path.join(os.path.dirname(__file__), 'tvg-ids.txt')\noutput_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'epg.xml')\noutput_file_gz = output_file + '.gz'\ndef fetch_and_extract_xml(url):\n    response = requests.get(url)\n    if response.status_code != 200:\n        print(f\"Failed to fetch {url}\")\n        return None\n    if url.endswith('.gz'):\n        try:",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "output_file",
+        "kind": 5,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "output_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'epg.xml')\noutput_file_gz = output_file + '.gz'\ndef fetch_and_extract_xml(url):\n    response = requests.get(url)\n    if response.status_code != 200:\n        print(f\"Failed to fetch {url}\")\n        return None\n    if url.endswith('.gz'):\n        try:\n            decompressed_data = gzip.decompress(response.content)",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "output_file_gz",
+        "kind": 5,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "output_file_gz = output_file + '.gz'\ndef fetch_and_extract_xml(url):\n    response = requests.get(url)\n    if response.status_code != 200:\n        print(f\"Failed to fetch {url}\")\n        return None\n    if url.endswith('.gz'):\n        try:\n            decompressed_data = gzip.decompress(response.content)\n            return ET.fromstring(decompressed_data)",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "m3u4u_epg",
+        "kind": 5,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "m3u4u_epg = os.getenv(\"M3U4U_EPG\")\nurls = [\n\tm3u4u_epg,\n       'https://epgshare01.online/epgshare01/epg_ripper_US1.xml.gz',\n        'https://epgshare01.online/epgshare01/epg_ripper_US_LOCALS2.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_CA1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_UK1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_AU1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_IE1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_DE1.xml.gz',",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    },
+    {
+        "label": "urls",
+        "kind": 5,
+        "importPath": "epg-grabber.getEpgs",
+        "description": "epg-grabber.getEpgs",
+        "peekOfCode": "urls = [\n\tm3u4u_epg,\n       'https://epgshare01.online/epgshare01/epg_ripper_US1.xml.gz',\n        'https://epgshare01.online/epgshare01/epg_ripper_US_LOCALS2.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_CA1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_UK1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_AU1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_IE1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_DE1.xml.gz',\n\t'https://epgshare01.online/epgshare01/epg_ripper_ZA1.xml.gz',",
+        "detail": "epg-grabber.getEpgs",
+        "documentation": {}
+    }
+]
